@@ -5,7 +5,8 @@ public class CPUPlayer extends Player {
     private int decisionTimer = 0;
     private int shootTimer = 0;
     private int reactionTimer = 0;
-    private final int reactionThreshold = 4;
+    private int jumpTimer = 0;
+    private final int reactionThreshold = 10;
     private Random random = new Random();
 
     public CPUPlayer(int x, int y,boolean isPlayer1, GamePanel panel) {
@@ -30,6 +31,11 @@ public class CPUPlayer extends Player {
         } else {
             reactionTimer++;
             if (reactionTimer > reactionThreshold) {
+                if (opponent.getY() < getY()) {
+                    jumpTimer++;
+                }
+                System.out.println(jumpTimer);
+    
                 if (getX() < opponent.getX()) {
                     setLeft(false);
                     setRight(true);
@@ -40,9 +46,12 @@ public class CPUPlayer extends Player {
                     setLeft(false);
                     setRight(false);
                 }
-                if (random.nextInt(60) == 0) setJump(true);
-                else setJump(false);
                 reactionTimer = 0;
+
+                if (random.nextInt(40) == 0) setJump(true);
+                else if (jumpTimer > 0) {setJump(true); jumpTimer = 0;}
+                else setJump(false);
+
             }
         }
         super.update();

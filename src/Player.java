@@ -18,7 +18,7 @@ public class Player extends Character {
     private BufferedImage playerImage;
 
     public Player(int x, int y, Color color, boolean isPlayer1, GamePanel panel) {
-        super(x, y, 18*2, 54*2,panel);
+        super(x, y, 18*3, 54*3,panel);
         startX = x;
         startY = y;
         this.color = color;
@@ -77,10 +77,14 @@ public class Player extends Character {
     public void setRight(boolean value) { right = value; }
     public void setJump(boolean value) {
         if (value && onGround) {
-            velocityY = -10;
+            velocityY = -15;
             onGround = false;
         }
         jump = value;
+    }
+
+    public boolean getJump() {
+        return jump;
     }
 
     public void update() {

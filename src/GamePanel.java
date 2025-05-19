@@ -93,7 +93,7 @@ public class GamePanel extends JPanel implements ActionListener {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        g.drawImage(bgImage, 0, 0,bgImage.getWidth()*10,bgImage.getHeight()*10, null);
+        g.drawImage(bgImage, 0, 0,bgImage.getWidth()*8,bgImage.getHeight()*8, null);
         g.setColor(Color.WHITE);
 
         g.fillRect(leftHoop.x, leftHoop.y, leftHoop.width, leftHoop.height);
