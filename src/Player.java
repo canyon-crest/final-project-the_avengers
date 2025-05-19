@@ -50,17 +50,17 @@ public class Player extends Character {
         String direction;
         String level;
 
-        if (velocityX < 0) {
+        if (left) {
             direction = imageKeys[0][0];
         }
-        else if (velocityX > 0) {
+        else if (right) {
             direction = imageKeys[0][2];
         }
         else {
             direction = imageKeys[0][1];
         }
 
-        if (velocityY < 0) {
+        if (velocityY != 0) {
             level = imageKeys[1][1];
         }
         else {
@@ -84,6 +84,7 @@ public class Player extends Character {
         if (left) x -= 5;
         if (right) x += 5;
         applyGravity();
+        updateImage();
     }
 
     public void draw(Graphics g) {
