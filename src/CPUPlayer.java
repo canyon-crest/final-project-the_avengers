@@ -4,6 +4,8 @@ import java.util.Random;
 public class CPUPlayer extends Player {
     private int decisionTimer = 0;
     private int shootTimer = 0;
+    private int reactionTimer = 0;
+    private final int reactionThreshold = 4;
     private Random random = new Random();
 
     public CPUPlayer(int x, int y,boolean isPlayer1, GamePanel panel) {
@@ -26,15 +28,22 @@ public class CPUPlayer extends Player {
                 GamePanel.requestCPUShoot(this);
             }
         } else {
-            if (getX() < opponent.getX()) {
-                setLeft(false);
-                setRight(true);
-            } else {
-                setLeft(true);
-                setRight(false);
+            reactionTimer++;
+            if (reactionTimer > reactionThreshold) {
+                if (getX() < opponent.getX()) {
+                    setLeft(false);
+                    setRight(true);
+                } else if (getX() > opponent.getX() + 5){
+                    setLeft(true);
+                    setRight(false);
+                } else {
+                    setLeft(false);
+                    setRight(false);
+                }
+                if (random.nextInt(60) == 0) setJump(true);
+                else setJump(false);
+                reactionTimer = 0;
             }
-            if (random.nextInt(60) == 0) setJump(true);
-            else setJump(false);
         }
         super.update();
     }

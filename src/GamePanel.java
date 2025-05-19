@@ -1,7 +1,9 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 
 public class GamePanel extends JPanel implements ActionListener {
     private static GamePanel activeInstance;
@@ -24,6 +26,7 @@ public class GamePanel extends JPanel implements ActionListener {
     private long startTime;
 
     private Font scoreFont = new Font("Arial", Font.BOLD, 28);
+    private BufferedImage bgImage;
 
     public GamePanel(MainContainer container, boolean cpuMode, GameMode mode) {
         this.container = container;
@@ -31,6 +34,13 @@ public class GamePanel extends JPanel implements ActionListener {
         this.gameMode = mode;
 
         activeInstance = this;
+
+        try {
+            bgImage = ImageIO.read(Character.class.getResource("/assets/backgrounds/court.png"));
+            }   
+        catch (Exception e) {
+            bgImage = null;
+        }
 
         setPreferredSize(new Dimension(800, 600));
         setBackground(Color.BLACK);
@@ -83,8 +93,8 @@ public class GamePanel extends JPanel implements ActionListener {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
+        g.drawImage(bgImage, 0, 0,bgImage.getWidth()*10,bgImage.getHeight()*10, null);
         g.setColor(Color.WHITE);
-        g.drawLine(0, 500, 800, 500);
 
         g.fillRect(leftHoop.x, leftHoop.y, leftHoop.width, leftHoop.height);
         g.fillRect(rightHoop.x, rightHoop.y, rightHoop.width, rightHoop.height);
