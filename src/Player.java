@@ -60,7 +60,7 @@ public class Player extends Character {
             direction = imageKeys[0][1];
         }
 
-        if (velocityY < 0) {
+        if (velocityY != 0) {
             level = imageKeys[1][1];
         }
         else {

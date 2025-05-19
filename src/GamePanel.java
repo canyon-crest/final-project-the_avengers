@@ -117,7 +117,11 @@ public class GamePanel extends JPanel implements ActionListener {
         if (!ball.isInFlight()) return;
 
         Rectangle ballBounds = new Rectangle(ball.x, ball.y, ball.width, ball.height);
-        if (ballBounds.intersects(leftHoop)) {
+        if (ballBounds.getX() == player1.getX()) {
+        	resetPlay(currentPlayer);
+        	
+        }
+        else if (ballBounds.intersects(leftHoop)) {
             player2.addScore();
             shotsMade++;
             gameMode.onScore(this, player2);
@@ -131,6 +135,9 @@ public class GamePanel extends JPanel implements ActionListener {
         }
         else if (ballBounds.getY() >= 400) {
         	resetPlay(currentPlayer);
+        	player1.x = 100;
+        	player2.x = 600;
+        	
         }
     }
 
