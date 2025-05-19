@@ -117,10 +117,11 @@ public class GamePanel extends JPanel implements ActionListener {
         if (!ball.isInFlight()) return;
 
         Rectangle ballBounds = new Rectangle(ball.x, ball.y, ball.width, ball.height);
-        if (ballBounds.getX() == player1.getX()) {
+        if (ballBounds.getX() == player1.getX() && ballBounds.getY() == player1.getY()) {
         	resetPlay(currentPlayer);
         	
         }
+
         else if (ballBounds.intersects(leftHoop)) {
             player2.addScore();
             shotsMade++;

@@ -109,6 +109,7 @@ public class Player extends Character {
     public boolean hasBall() { return hasBall; }
     public void setHasBall(boolean value) { hasBall = value; }
     public int getX() { return x; }
+    public int getY() { return y; }
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
 }
