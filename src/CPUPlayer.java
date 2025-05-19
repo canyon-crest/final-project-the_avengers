@@ -6,8 +6,8 @@ public class CPUPlayer extends Player {
     private int shootTimer = 0;
     private Random random = new Random();
 
-    public CPUPlayer(int x, int y) {
-        super(x, y, Color.BLUE);
+    public CPUPlayer(int x, int y,boolean isPlayer1) {
+        super(x, y, Color.BLUE,isPlayer1);
         setName("CPU");
     }
 
