@@ -10,6 +10,7 @@ public class Player extends Character {
     private boolean hasBall;
     private String name = "Player";
     private Color color;
+    private int startX, startY;
 
     private static final String[][] imageKeys = {{"left","forward","right"},{"neutral","up"}};
     private HashMap<String,BufferedImage> imageMap;
@@ -18,6 +19,8 @@ public class Player extends Character {
 
     public Player(int x, int y, Color color, boolean isPlayer1, GamePanel panel) {
         super(x, y, 18*2, 54*2,panel);
+        startX = x;
+        startY = y;
         this.color = color;
 
         imageMap = new HashMap<>();
@@ -85,6 +88,12 @@ public class Player extends Character {
         if (right) x += 5;
         applyGravity();
         updateImage();
+    }
+
+    public void reset() {
+        x = startX;
+        y = startY;
+        onGround = true;
     }
 
     public void draw(Graphics g) {

@@ -146,8 +146,8 @@ public class GamePanel extends JPanel implements ActionListener {
         }
         else if (ballBounds.getY() >= 400) {
         	resetPlay(currentPlayer);
-        	player1.x = 100;
-        	player2.x = 600;
+        	player1.reset();
+            player2.reset();
         	
         }
     }
