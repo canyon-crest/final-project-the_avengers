@@ -5,12 +5,14 @@ public abstract class Character {
     protected double velocityX = 0, velocityY = 0;
     protected final double GRAVITY = 0.5;
     protected boolean onGround = true;
+    protected GamePanel panel;
 
-    public Character(int x, int y, int width, int height) {
+    public Character(int x, int y, int width, int height, GamePanel panel) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
+        this.panel = panel;
     }
 
     public void applyGravity() {

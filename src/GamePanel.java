@@ -37,18 +37,18 @@ public class GamePanel extends JPanel implements ActionListener {
         setFocusable(true);
         addKeyListener(new KeyChecker(this));
 
-        player1 = new Player(100, 300, Color.red,true);
+        player1 = new Player(100, 300, Color.red,true,this);
         player1.setName("Player 1");
 
         if (cpuMode) {
-            player2 = new CPUPlayer(600, 300,false);
+            player2 = new CPUPlayer(600, 300,false,this);
         } else {
-            player2 = new Player(600, 300, Color.blue,false);
+            player2 = new Player(600, 300, Color.blue,false,this);
             player2.setName("Player 2");
         }
         currentPlayer = player1;
 
-        ball = new Ball(0, 0);
+        ball = new Ball(0, 0,this);
         ball.setOwner(player1);
         player1.setHasBall(true);
 

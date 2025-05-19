@@ -4,8 +4,8 @@ public class Ball extends Character {
     private boolean inFlight = false;
     private Player owner;
 
-    public Ball(int x, int y) {
-        super(x, y, 20, 20);
+    public Ball(int x, int y,GamePanel panel) {
+        super(x, y, 20, 20,panel);
     }
 
     public void shoot(double powerX, double powerY) {

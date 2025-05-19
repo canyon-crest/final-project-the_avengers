@@ -16,8 +16,8 @@ public class Player extends Character {
 
     private BufferedImage playerImage;
 
-    public Player(int x, int y, Color color, boolean isPlayer1) {
-        super(x, y, 18*2, 54*2);
+    public Player(int x, int y, Color color, boolean isPlayer1, GamePanel panel) {
+        super(x, y, 18*2, 54*2,panel);
         this.color = color;
 
         imageMap = new HashMap<>();
@@ -60,7 +60,7 @@ public class Player extends Character {
             direction = imageKeys[0][1];
         }
 
-        if (velocityY != 0) {
+        if (!onGround) {
             level = imageKeys[1][1];
         }
         else {
@@ -100,6 +100,7 @@ public class Player extends Character {
                 y = 300;
                 velocityY = 0;
                 onGround = true;
+                panel.shootBall(this);
             }
         }
     }
