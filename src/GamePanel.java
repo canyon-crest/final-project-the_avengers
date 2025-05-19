@@ -11,6 +11,7 @@ public class GamePanel extends JPanel implements ActionListener {
 
     private Player player1;
     private Player player2;
+    private Player currentPlayer; 
     private Ball ball;
     private boolean cpuMode;
     private GameMode gameMode;
@@ -45,6 +46,7 @@ public class GamePanel extends JPanel implements ActionListener {
             player2 = new Player(600, 300, Color.blue);
             player2.setName("Player 2");
         }
+        currentPlayer = player1;
 
         ball = new Ball(0, 0);
         ball.setOwner(player1);
@@ -119,12 +121,16 @@ public class GamePanel extends JPanel implements ActionListener {
             player2.addScore();
             shotsMade++;
             gameMode.onScore(this, player2);
-            resetPlay(player2);
-        } else if (ballBounds.intersects(rightHoop)) {
+            resetPlay(player1);
+        } 
+        else if (ballBounds.intersects(rightHoop)) {
             player1.addScore();
             shotsMade++;
             gameMode.onScore(this, player1);
-            resetPlay(player1);
+            resetPlay(player2);
+        }
+        else if (ballBounds.getY() >= 400) {
+        	resetPlay(currentPlayer);
         }
     }
 
@@ -138,6 +144,12 @@ public class GamePanel extends JPanel implements ActionListener {
             int time = (int)((System.currentTimeMillis() - startTime) / 1000);
             double accuracy = shotsTaken == 0 ? 0 : (shotsMade * 100.0 / shotsTaken);
             container.showWinScreen(nextPossession.getName(), time, accuracy);
+        }
+        if(currentPlayer == player1) {
+        	currentPlayer = player2;
+        }
+        else {
+        	currentPlayer = player1;
         }
     }
 
