@@ -38,7 +38,7 @@ public class CPUPlayer extends Player {
 
             }
             if (x < 500 && x > 400 && shootTimer > shootThreshold) {
-                if (Math.random() < .02) GamePanel.requestCPUShoot(this);
+                if (Math.random() < .05) GamePanel.requestCPUShoot(this);
             }
 
             if (x < 200) {
