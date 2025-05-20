@@ -11,6 +11,7 @@ public class Player extends Character {
     private String name = "Player";
     private Color color;
     private int startX, startY;
+    private boolean block;
 
     private static final String[][] imageKeys = {{"left","forward","right"},{"neutral","up"}};
     private HashMap<String,BufferedImage> imageMap;
@@ -22,6 +23,7 @@ public class Player extends Character {
         startX = x;
         startY = y;
         this.color = color;
+        block = false;
 
         imageMap = new HashMap<>();
         initImages(isPlayer1 ? "lebron" : "steph");
@@ -113,7 +115,8 @@ public class Player extends Character {
                 y = 400;
                 velocityY = 0;
                 onGround = true;
-                panel.shootBall(this);
+                if (!block) panel.shootBall(this);
+                block = false;
             }
         }
     }
@@ -123,6 +126,7 @@ public class Player extends Character {
     public void setScore(int score) {this.score = score;}
     public boolean hasBall() { return hasBall; }
     public void setHasBall(boolean value) { hasBall = value; }
+    public void setBlock(boolean block) {this.block = block;}
     public int getX() { return x; }
     public int getY() { return y; }
     public String getName() { return name; }
