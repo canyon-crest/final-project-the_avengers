@@ -5,14 +5,17 @@ public class Ball extends Character {
     private Player owner;
 
     public Ball(int x, int y,GamePanel panel) {
-        super(x, y, 20, 20,panel);
+        super(x, y, 25, 25,panel);
     }
 
     public void shoot(double powerX, double powerY) {
+
         this.velocityX = powerX;
         this.velocityY = powerY;
         this.inFlight = true;
         this.onGround = false;
+
+        
     }
 
     public void update() {
@@ -20,11 +23,16 @@ public class Ball extends Character {
             x += velocityX;
             y += velocityY;
             velocityY += GRAVITY;
-            if (y >= 500 - height) {
-                y = 500 - height;
-                velocityY = 0;
-                inFlight = false;
-                onGround = true;
+            if (y >= 550 - height) {
+                y = 550 - height;
+                velocityY = (1.3/3 * (-velocityY));
+                velocityX = (2.0/3 * (velocityX));
+
+                if (Math.abs(velocityY) < 1.2) {
+                    velocityY=0;
+                }
+                //inFlight = false;
+                //onGround = true;
             }
         } else if (owner != null) {
             x = owner.getX() + 10;

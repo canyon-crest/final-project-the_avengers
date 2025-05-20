@@ -85,9 +85,12 @@ public class GamePanel extends JPanel implements ActionListener {
             player2.update();
         }
         ball.update();
-        if (ball.y + ball.height >= 500 || ball.x < 0 || ball.x > 1280) {
-            Player next = currentPlayer.equals(player1) ? player2 : player1;
-            resetPlay(next,true);
+        if (ball.x < 0 || ball.x + ball.width > 1280) {
+            ball.velocityX = -ball.velocityX;
+        }
+        if (ball.y + ball.height >= 550) {
+            //Player next = currentPlayer.equals(player1) ? player2 : player1;
+            //resetPlay(next,true);
         }
         checkScore();
     }
@@ -112,27 +115,45 @@ public class GamePanel extends JPanel implements ActionListener {
     }
 
     public void shootBall(Player shooter) {
-        if (!shooter.hasBall() || ball.isInFlight()) return;
+        if (ball.isInFlight()) return;
+
+        if (shooter.hasBall()) {
 
         shooter.setHasBall(false);
         currentPlayer = shooter;
         ball.setOwner(null);
         shotsTaken++;
+        //double distance = (shooter == player1) ? (rightHoop.getCenterX() - player1.getX()) : (leftHoop.getCenterX() - player2.getX());
+        //double powerX = (Math.abs(distance/58) > 10) ? (int) (Math.abs(distance)/distance) * 10 : distance/58;
 
+        
         double powerX = (shooter == player1) ? 6 : -6;
         double powerY = -15;
+        //double powerY = -13.5 + ((shooter == player1) ? (rightHoop.getCenterY() - player1.getY())/50 : (leftHoop.getCenterY() - player2.getY())/50);
 
         ball.shoot(powerX, powerY);
         gameMode.onShoot(ball, shooter);
+        }
+        // else if (player1.intersects(player2)){
+        //     offPlayer.setHasBall(false);
+        //     currentPlayer = shooter;
+        //     ball.setOwner(null);
+        //     ball.shoot((player1.x < player2.x) ? -10 : 10, -4);
+        //     gameMode.onShoot(ball, shooter);
+
+        // }
     }
 
     public void checkScore() {
         if (!ball.isInFlight()) return;
 
-        if (offPlayer.intersects(ball) && (ball.velocityY <= 0 || offPlayer.getY()== offPlayer.getStartY())) {
+        if (offPlayer.intersects(ball) && (ball.velocityY <= 0 || ball.getY() >= rightHoop.getCenterY())) {
             resetPlay(offPlayer,false);
             currentPlayer.setBlock(true);
         	
+        }
+        else if (currentPlayer.intersects(ball) && ball.getY() >= 550 - ball.height) {
+            resetPlay(currentPlayer, false);
         }
         else if (ball.intersects(leftHoop)) {
             player2.addScore();
@@ -146,7 +167,7 @@ public class GamePanel extends JPanel implements ActionListener {
             gameMode.onScore(this, player1);
             resetPlay(player2,true);
         }
-        else if (ball.getY() >= 500) {
+        else if (ball.getY() >= 550) {
         	resetPlay(offPlayer,true);
         	
         }

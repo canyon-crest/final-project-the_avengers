@@ -116,8 +116,9 @@ public class Player extends Character {
                 velocityY = 0;
                 onGround = true;
                 if (!block) panel.shootBall(this);
-                block = false;
             }
+        } else {
+            block = false;
         }
     }
 
