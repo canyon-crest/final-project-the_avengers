@@ -128,7 +128,9 @@ public class Player extends Character {
     public void setHasBall(boolean value) { hasBall = value; }
     public void setBlock(boolean block) {this.block = block;}
     public int getX() { return x; }
+    
     public int getY() { return y; }
+    public int getStartY() { return startY; }
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
 }

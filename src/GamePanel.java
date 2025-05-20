@@ -129,7 +129,7 @@ public class GamePanel extends JPanel implements ActionListener {
     public void checkScore() {
         if (!ball.isInFlight()) return;
 
-        if (offPlayer.intersects(ball) && ball.velocityY <= 0) {
+        if (offPlayer.intersects(ball) && (ball.velocityY <= 0 || offPlayer.getY()== offPlayer.getStartY())) {
             resetPlay(offPlayer,false);
             currentPlayer.setBlock(true);
         	
