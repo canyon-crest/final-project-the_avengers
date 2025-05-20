@@ -31,6 +31,8 @@ public abstract class Character {
 
     public boolean contains(int X, int Y) {return new Rectangle(x, y, width, height).contains(X, Y);}
     public boolean intersects(Rectangle r) {return new Rectangle(x, y, width, height).intersects(r);}
+    public boolean intersects(Character c) {return new Rectangle(x, y, width, height).intersects(new Rectangle(c.x, c.y, c.width, c.height));}
+
     public int getY() {return y;}
 
     public abstract void draw(Graphics g);

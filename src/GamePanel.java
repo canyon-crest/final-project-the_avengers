@@ -27,7 +27,7 @@ public class GamePanel extends JPanel implements ActionListener {
     private long startTime;
 
     private Font scoreFont = new Font("Arial", Font.BOLD, 28);
-    private BufferedImage bgImage;
+    private BufferedImage ctImage;
 
     public GamePanel(MainContainer container, boolean cpuMode, GameMode mode) {
         this.container = container;
@@ -37,10 +37,10 @@ public class GamePanel extends JPanel implements ActionListener {
         activeInstance = this;
 
         try {
-            bgImage = ImageIO.read(Character.class.getResource("/assets/backgrounds/court.png"));
+            ctImage = ImageIO.read(Character.class.getResource("/assets/backgrounds/court.png"));
             }   
         catch (Exception e) {
-            bgImage = null;
+            ctImage = null;
         }
 
         setPreferredSize(new Dimension(1280, 720));
@@ -95,7 +95,7 @@ public class GamePanel extends JPanel implements ActionListener {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        g.drawImage(bgImage, 0, 100,1280,720, null);
+        g.drawImage(ctImage, 0, 100,1280,720, null);
         g.setColor(Color.WHITE);
 
         g.fillRect(leftHoop.x, leftHoop.y, leftHoop.width, leftHoop.height);
@@ -108,7 +108,7 @@ public class GamePanel extends JPanel implements ActionListener {
         g.setFont(scoreFont);
         g.setColor(Color.YELLOW);
         g.drawString("P1: " + player1.getScore(), 50, 50);
-        g.drawString(cpuMode ? "CPU: " + player2.getScore() : "P2: " + player2.getScore(), 600, 50);
+        g.drawString(cpuMode ? "CPU: " + player2.getScore() : "P2: " + player2.getScore(), 1280-150, 50);
     }
 
     public void shootBall(Player shooter) {
@@ -129,9 +129,8 @@ public class GamePanel extends JPanel implements ActionListener {
     public void checkScore() {
         if (!ball.isInFlight()) return;
 
-        if (offPlayer.contains(ball.x,ball.y)) {
-        	System.out.println("Blocked");
-            resetPlay(currentPlayer);
+        if (offPlayer.intersects(ball) && ball.velocityY <= 0) {
+            resetPlay(offPlayer);
         	
         }
         else if (ball.intersects(leftHoop)) {
@@ -147,9 +146,7 @@ public class GamePanel extends JPanel implements ActionListener {
             resetPlay(player2);
         }
         else if (ball.getY() >= 500) {
-        	resetPlay(currentPlayer);
-        	player1.reset();
-            player2.reset();
+        	resetPlay(offPlayer);
         	
         }
     }
@@ -162,10 +159,10 @@ public class GamePanel extends JPanel implements ActionListener {
         ball.x = nextPossession.x + nextPossession.width / 2 - ball.width / 2;
         ball.y = nextPossession.y - ball.height;
 
-        if (nextPossession.getScore() >= 5) {
+        if (currentPlayer.getScore() >= 5) {
             int time = (int)((System.currentTimeMillis() - startTime) / 1000);
             double accuracy = shotsTaken == 0 ? 0 : (shotsMade * 100.0 / shotsTaken);
-            container.showWinScreen(nextPossession.getName(), time, accuracy);
+            container.showWinScreen(currentPlayer.getName(), time, accuracy);
         }
         if(currentPlayer == player1) {
         	currentPlayer = player2;

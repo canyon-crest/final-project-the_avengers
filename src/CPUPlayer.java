@@ -17,17 +17,29 @@ public class CPUPlayer extends Player {
     public void updateAI(Player opponent, Ball ball) {
         if (hasBall()) {
             decisionTimer++;
-            shootTimer++;
+            if (x < 1280/2) shootTimer++;
+
             if (decisionTimer > 30) {
-                boolean moveLeft = random.nextBoolean();
+
+                boolean moveLeft = Math.random() < (double) x/800;
                 setLeft(moveLeft);
                 setRight(!moveLeft);
+
                 decisionTimer = 0;
+
             }
-            if (shootTimer > 120) {
-                shootTimer = 0;
-                GamePanel.requestCPUShoot(this);
+            if (x < 500 && x > 400 && shootTimer > 150) {
+                if (Math.random() < .05) GamePanel.requestCPUShoot(this);
             }
+
+            if (x < 200) {
+                setLeft(false);
+                setRight(true);
+            } else if (x > 1000) {
+                setLeft(true);
+                setRight(false);
+            }
+            
         } else {
             reactionTimer++;
             if (reactionTimer > reactionThreshold) {

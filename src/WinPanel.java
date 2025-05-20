@@ -9,28 +9,28 @@ public class WinPanel extends JPanel {
         JLabel winText = new JLabel(winner + " Wins!", SwingConstants.CENTER);
         winText.setFont(new Font("Arial", Font.BOLD, 36));
         winText.setForeground(Color.WHITE);
-        winText.setBounds(200, 50, 400, 50);
+        winText.setBounds((1280-400)/2, 150, 400, 50);
         add(winText);
 
         JLabel timeText = new JLabel("Time Elapsed: " + time + "s", SwingConstants.CENTER);
         timeText.setFont(new Font("Arial", Font.PLAIN, 24));
         timeText.setForeground(Color.WHITE);
-        timeText.setBounds(200, 120, 400, 40);
+        timeText.setBounds((1280-400)/2, 225, 400, 40);
         add(timeText);
 
         JLabel accText = new JLabel("Shot Accuracy: " + (int)accuracy + "%", SwingConstants.CENTER);
         accText.setFont(new Font("Arial", Font.PLAIN, 24));
         accText.setForeground(Color.WHITE);
-        accText.setBounds(200, 170, 400, 40);
+        accText.setBounds((1280-400)/2, 300, 400, 40);
         add(accText);
 
         JButton cpuButton = new JButton("CPU");
         JButton pvpButton = new JButton("2 Players");
         JComboBox<String> modeBox = new JComboBox<>(new String[]{"None", "SniperShots", "SuddenDeath", "RandomHoops"});
 
-        cpuButton.setBounds(300, 250, 200, 40);
-        pvpButton.setBounds(300, 300, 200, 40);
-        modeBox.setBounds(300, 350, 200, 40);
+        cpuButton.setBounds((1280-200)/2, 400, 200, 40);
+        pvpButton.setBounds((1280-200)/2, 475, 200, 40);
+        modeBox.setBounds((1280-200)/2, 550, 200, 40);
 
         add(cpuButton);
         add(pvpButton);

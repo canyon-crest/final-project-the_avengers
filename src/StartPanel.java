@@ -8,18 +8,18 @@ public class StartPanel extends JPanel {
 
         JLabel title = new JLabel("Choose Mode", SwingConstants.CENTER);
         title.setFont(new Font("Arial", Font.BOLD, 32));
-        title.setBounds(250, 50, 300, 50);
+        title.setBounds((1280-300)/2, 150, 300, 50);
         add(title);
 
         JButton cpuButton = new JButton("CPU");
         JButton pvpButton = new JButton("2 Players");
 
-        cpuButton.setBounds(300, 150, 200, 40);
-        pvpButton.setBounds(300, 200, 200, 40);
+        cpuButton.setBounds((1280-200)/2, 300, 200, 40);
+        pvpButton.setBounds((1280-200)/2, 375, 200, 40);
 
         String[] modifiers = {"None", "SniperShots", "SuddenDeath", "RandomHoops"};
         JComboBox<String> modeBox = new JComboBox<>(modifiers);
-        modeBox.setBounds(300, 250, 200, 40);
+        modeBox.setBounds((1280-200)/2, 450, 200, 40);
 
         add(cpuButton);
         add(pvpButton);

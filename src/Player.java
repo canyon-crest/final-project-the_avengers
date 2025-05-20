@@ -88,8 +88,8 @@ public class Player extends Character {
     }
 
     public void update() {
-        if (left) x -= 8;
-        if (right) x += 8;
+        if (left && x > 0) x -= 8;
+        if (right && x < 1280-54) x += 8;
         applyGravity();
         updateImage();
     }
@@ -120,6 +120,7 @@ public class Player extends Character {
 
     public void addScore() { score++; }
     public int getScore() { return score; }
+    public void setScore(int score) {this.score = score;}
     public boolean hasBall() { return hasBall; }
     public void setHasBall(boolean value) { hasBall = value; }
     public int getX() { return x; }
