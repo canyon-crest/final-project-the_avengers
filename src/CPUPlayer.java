@@ -14,6 +14,12 @@ public class CPUPlayer extends Player {
         setName("CPU");
     }
 
+    @Override
+    public void reset() {
+        super.reset();
+        shootTimer = 0;
+    }
+
     public void updateAI(Player opponent, Ball ball) {
         if (hasBall()) {
             decisionTimer++;
@@ -28,7 +34,7 @@ public class CPUPlayer extends Player {
                 decisionTimer = 0;
 
             }
-            if (x < 500 && x > 400 && shootTimer > 150) {
+            if (x < 500 && x > 400 && shootTimer > 100) {
                 if (Math.random() < .05) GamePanel.requestCPUShoot(this);
             }
 
