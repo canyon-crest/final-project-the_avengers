@@ -6,6 +6,8 @@ public class CPUPlayer extends Player {
     private int shootTimer = 0;
     private int reactionTimer = 0;
     private int jumpTimer = 0;
+    private int randJump;
+    private int shootThreshold = (int) Math.random() * 100;
     private final int reactionThreshold = 10;
     private Random random = new Random();
 
@@ -18,6 +20,7 @@ public class CPUPlayer extends Player {
     public void reset() {
         super.reset();
         shootTimer = 0;
+        shootThreshold = (int) Math.random() * 100;
     }
 
     public void updateAI(Player opponent, Ball ball) {
@@ -34,8 +37,8 @@ public class CPUPlayer extends Player {
                 decisionTimer = 0;
 
             }
-            if (x < 500 && x > 400 && shootTimer > 100) {
-                if (Math.random() < .05) GamePanel.requestCPUShoot(this);
+            if (x < 500 && x > 400 && shootTimer > shootThreshold) {
+                if (Math.random() < .02) GamePanel.requestCPUShoot(this);
             }
 
             if (x < 200) {
@@ -53,10 +56,10 @@ public class CPUPlayer extends Player {
                     jumpTimer++;
                 }
     
-                if (getX() < opponent.getX()) {
+                if (getX() < opponent.getX()+ 50) {
                     setLeft(false);
                     setRight(true);
-                } else if (getX() > opponent.getX() + 5){
+                } else if (getX() > opponent.getX() + 55){
                     setLeft(true);
                     setRight(false);
                 } else {
@@ -65,11 +68,20 @@ public class CPUPlayer extends Player {
                 }
                 reactionTimer = 0;
 
-                if (random.nextInt(40) == 0) setJump(true);
+                if (getX() < 1280/2) {
+                    randJump = 40;
+                }
+                 else {
+                    randJump = 5;
+                }
+                
+                if (random.nextInt(randJump) == 0) setJump(true);
                 else if (jumpTimer > 0) {setJump(true); jumpTimer = 0;}
                 else setJump(false);
 
             }
+
+            if(ball.getY() < opponent.getY()-100) {setJump(true); jumpTimer = 0;}
         }
         super.update();
     }
