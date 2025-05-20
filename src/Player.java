@@ -88,8 +88,8 @@ public class Player extends Character {
     }
 
     public void update() {
-        if (left) x -= 5;
-        if (right) x += 5;
+        if (left) x -= 8;
+        if (right) x += 8;
         applyGravity();
         updateImage();
     }
@@ -109,8 +109,8 @@ public class Player extends Character {
         if (!onGround) {
             velocityY += GRAVITY;
             y += velocityY;
-            if (y >= 300) {
-                y = 300;
+            if (y >= 400) {
+                y = 400;
                 velocityY = 0;
                 onGround = true;
                 panel.shootBall(this);

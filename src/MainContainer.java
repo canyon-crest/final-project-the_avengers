@@ -13,7 +13,7 @@ public class MainContainer extends JFrame {
         setTitle("Basketball Game");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
-        setSize(800, 600);
+        setSize(1280, 720);
 
         layout = new CardLayout();
         mainPanel = new JPanel(layout);

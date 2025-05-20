@@ -38,6 +38,7 @@ public class Ball extends Character {
     }
 
     public void setOwner(Player p) { owner = p; }
+    public Player getOwner() {return owner;}
     public boolean isInFlight() { return inFlight; }
     public void reset(Player newOwner) {
         owner = newOwner;

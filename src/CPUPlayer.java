@@ -34,7 +34,6 @@ public class CPUPlayer extends Player {
                 if (opponent.getY() < getY()) {
                     jumpTimer++;
                 }
-                System.out.println(jumpTimer);
     
                 if (getX() < opponent.getX()) {
                     setLeft(false);

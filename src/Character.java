@@ -1,5 +1,7 @@
 import java.awt.*;
 
+import javax.swing.text.Highlighter.Highlight;
+
 public abstract class Character {
     protected int x, y, width, height;
     protected double velocityX = 0, velocityY = 0;
@@ -26,6 +28,10 @@ public abstract class Character {
             }
         }
     }
+
+    public boolean contains(int X, int Y) {return new Rectangle(x, y, width, height).contains(X, Y);}
+    public boolean intersects(Rectangle r) {return new Rectangle(x, y, width, height).intersects(r);}
+    public int getY() {return y;}
 
     public abstract void draw(Graphics g);
     public abstract void update();

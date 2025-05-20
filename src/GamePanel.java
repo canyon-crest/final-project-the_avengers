@@ -14,6 +14,7 @@ public class GamePanel extends JPanel implements ActionListener {
     private Player player1;
     private Player player2;
     private Player currentPlayer; 
+    private Player offPlayer;
     private Ball ball;
     private boolean cpuMode;
     private GameMode gameMode;
@@ -42,28 +43,29 @@ public class GamePanel extends JPanel implements ActionListener {
             bgImage = null;
         }
 
-        setPreferredSize(new Dimension(800, 600));
+        setPreferredSize(new Dimension(1280, 720));
         setBackground(Color.BLACK);
         setFocusable(true);
         addKeyListener(new KeyChecker(this));
 
-        player1 = new Player(100, 300, Color.red,true,this);
+        player1 = new Player(100, 400, Color.red,true,this);
         player1.setName("Player 1");
 
         if (cpuMode) {
-            player2 = new CPUPlayer(600, 300,false,this);
+            player2 = new CPUPlayer(1280-100, 400,false,this);
         } else {
-            player2 = new Player(600, 300, Color.blue,false,this);
+            player2 = new Player(1280-100-54, 400, Color.blue,false,this);
             player2.setName("Player 2");
         }
         currentPlayer = player1;
+        offPlayer = player2;
 
         ball = new Ball(0, 0,this);
         ball.setOwner(player1);
         player1.setHasBall(true);
 
-        leftHoop = new Rectangle(100, 200, 30, 10);
-        rightHoop = new Rectangle(670, 200, 30, 10);
+        leftHoop = new Rectangle(100, 300, 30, 10);
+        rightHoop = new Rectangle(1280-100-30, 300, 30, 10);
 
         gameTimer = new Timer(1000 / FPS, this);
         gameTimer.start();
@@ -83,8 +85,8 @@ public class GamePanel extends JPanel implements ActionListener {
             player2.update();
         }
         ball.update();
-        if (ball.y + ball.height >= 500 || ball.x < 0 || ball.x > 800) {
-            Player next = (ball.x < 400) ? player2 : player1;
+        if (ball.y + ball.height >= 500 || ball.x < 0 || ball.x > 1280) {
+            Player next = currentPlayer.equals(player1) ? player2 : player1;
             resetPlay(next);
         }
         checkScore();
@@ -93,7 +95,7 @@ public class GamePanel extends JPanel implements ActionListener {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        g.drawImage(bgImage, 0, 0,bgImage.getWidth()*8,bgImage.getHeight()*8, null);
+        g.drawImage(bgImage, 0, 100,1280,720, null);
         g.setColor(Color.WHITE);
 
         g.fillRect(leftHoop.x, leftHoop.y, leftHoop.width, leftHoop.height);
@@ -113,11 +115,12 @@ public class GamePanel extends JPanel implements ActionListener {
         if (!shooter.hasBall() || ball.isInFlight()) return;
 
         shooter.setHasBall(false);
+        currentPlayer = shooter;
         ball.setOwner(null);
         shotsTaken++;
 
-        double powerX = (shooter == player1) ? 5 : -5;
-        double powerY = -10;
+        double powerX = (shooter == player1) ? 6 : -6;
+        double powerY = -15;
 
         ball.shoot(powerX, powerY);
         gameMode.onShoot(ball, shooter);
@@ -126,25 +129,24 @@ public class GamePanel extends JPanel implements ActionListener {
     public void checkScore() {
         if (!ball.isInFlight()) return;
 
-        Rectangle ballBounds = new Rectangle(ball.x, ball.y, ball.width, ball.height);
-        if (ballBounds.getX() == player1.getX() && ballBounds.getY() == player1.getY()) {
-        	resetPlay(currentPlayer);
+        if (offPlayer.contains(ball.x,ball.y)) {
+        	System.out.println("Blocked");
+            resetPlay(currentPlayer);
         	
         }
-
-        else if (ballBounds.intersects(leftHoop)) {
+        else if (ball.intersects(leftHoop)) {
             player2.addScore();
             shotsMade++;
             gameMode.onScore(this, player2);
             resetPlay(player1);
         } 
-        else if (ballBounds.intersects(rightHoop)) {
+        else if (ball.intersects(rightHoop)) {
             player1.addScore();
             shotsMade++;
             gameMode.onScore(this, player1);
             resetPlay(player2);
         }
-        else if (ballBounds.getY() >= 400) {
+        else if (ball.getY() >= 500) {
         	resetPlay(currentPlayer);
         	player1.reset();
             player2.reset();
@@ -153,6 +155,8 @@ public class GamePanel extends JPanel implements ActionListener {
     }
 
     public void resetPlay(Player nextPossession) {
+        player1.reset();
+        player2.reset();
         ball.reset(nextPossession);
         nextPossession.setHasBall(true);
         ball.x = nextPossession.x + nextPossession.width / 2 - ball.width / 2;
@@ -165,10 +169,13 @@ public class GamePanel extends JPanel implements ActionListener {
         }
         if(currentPlayer == player1) {
         	currentPlayer = player2;
+            offPlayer = player1;
         }
         else {
         	currentPlayer = player1;
+            offPlayer = player2;
         }
+
     }
 
     public Player getPlayer1() { return player1; }
