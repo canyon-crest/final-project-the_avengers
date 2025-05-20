@@ -49,7 +49,7 @@ public class CPUPlayer extends Player {
                 setRight(false);
             }
             
-        } else {
+        } else if (opponent.hasBall()){
             reactionTimer++;
             if (reactionTimer > reactionThreshold) {
                 if (opponent.getY() < getY()) {
@@ -82,6 +82,21 @@ public class CPUPlayer extends Player {
             }
 
             if(ball.getY() < opponent.getY()-100) {setJump(true); jumpTimer = 0;}
+        }
+        else {
+            reactionTimer++;
+            if (reactionTimer > reactionThreshold) {
+                if (getX() < ball.x) {
+                    setLeft(false);
+                    setRight(true);
+                } else {
+                    setLeft(true);
+                    setRight(false);
+                }
+                reactionTimer = 0;
+
+            }
+
         }
         super.update();
     }
