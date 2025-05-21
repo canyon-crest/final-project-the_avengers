@@ -22,6 +22,9 @@ public class GamePanel extends JPanel implements ActionListener {
     private Rectangle leftHoop;
     private Rectangle rightHoop;
 
+    private double powerX;
+    private double powerY;
+
     private int shotsTaken = 0;
     private int shotsMade = 0;
     private long startTime;
@@ -33,6 +36,9 @@ public class GamePanel extends JPanel implements ActionListener {
         this.container = container;
         this.cpuMode = cpuMode;
         this.gameMode = mode;
+        
+        powerX = .4;
+        powerY = 0;
 
         activeInstance = this;
 
@@ -114,6 +120,12 @@ public class GamePanel extends JPanel implements ActionListener {
         g.drawString(cpuMode ? "CPU: " + player2.getScore() : "P2: " + player2.getScore(), 1280-150, 50);
     }
 
+    public void startShootBall(Player shooter) {
+        if (ball.isInFlight() || !shooter.hasBall()) return;
+
+        powerX *= 10;                
+    }
+
     public void shootBall(Player shooter) {
         if (ball.isInFlight()) return;
 
@@ -126,12 +138,24 @@ public class GamePanel extends JPanel implements ActionListener {
         //double distance = (shooter == player1) ? (rightHoop.getCenterX() - player1.getX()) : (leftHoop.getCenterX() - player2.getX());
         //double powerX = (Math.abs(distance/58) > 10) ? (int) (Math.abs(distance)/distance) * 10 : distance/58;
 
+        if (shooter instanceof CPUPlayer) {
+            double distance = (shooter == player1) ? (rightHoop.getCenterX() - player1.getX()) : (leftHoop.getCenterX() - player2.getX());
+            powerX = (Math.abs(distance/58) > 10) ? (int) (Math.abs(distance)/distance) * 10 : distance/58;
+            powerY = -13.5 + ((shooter == player1) ? (rightHoop.getCenterY() - player1.getY())/50 : (leftHoop.getCenterY() - player2.getY())/50);
+
+        }
+        else {
+            powerX = (Math.abs(powerX) > 20) ? 10 : powerX;
+            powerX = (shooter == player1) ? powerX : -powerX;
+            powerY = -13.5 + ((shooter == player1) ? (rightHoop.getCenterY() - player1.getY())/50 : (leftHoop.getCenterY() - player2.getY())/50);
+            
+        }
         
-        double powerX = (shooter == player1) ? 6 : -6;
-        double powerY = -15;
         //double powerY = -13.5 + ((shooter == player1) ? (rightHoop.getCenterY() - player1.getY())/50 : (leftHoop.getCenterY() - player2.getY())/50);
 
         ball.shoot(powerX, powerY);
+        powerX = .4;
+        powerY = 0;
         gameMode.onShoot(ball, shooter);
         }
         // else if (player1.intersects(player2)){
@@ -147,13 +171,18 @@ public class GamePanel extends JPanel implements ActionListener {
     public void checkScore() {
         if (!ball.isInFlight()) return;
 
-        if (offPlayer.intersects(ball) && (ball.velocityY <= 0 || ball.getY() >= rightHoop.getCenterY())) {
+        if (offPlayer.intersects(ball) && ball.velocityY <= 0) {
             resetPlay(offPlayer,false);
             currentPlayer.setBlock(true);
-        	
         }
-        else if (currentPlayer.intersects(ball) && ball.getY() >= 550 - ball.height) {
-            resetPlay(currentPlayer, false);
+        else if (player1.intersects(ball) && ball.getY() >= player1.getStartY()) {
+            resetPlay(player1, false);
+            player1.setBlock(true);
+        }
+        else if (player2.intersects(ball) && ball.getY() >= player2.getStartY()) {
+            resetPlay(player2, false);
+            player2.setBlock(true);
+
         }
         else if (ball.intersects(leftHoop)) {
             player2.addScore();
