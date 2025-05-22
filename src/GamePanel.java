@@ -98,6 +98,9 @@ public class GamePanel extends JPanel implements ActionListener {
             //Player next = currentPlayer.equals(player1) ? player2 : player1;
             //resetPlay(next,true);
         }
+        if (ball.getOwner() != null && ball.getOwner().onGround) {
+            ball.dribble();
+        }
         checkScore();
     }
 
