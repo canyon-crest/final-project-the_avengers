@@ -15,8 +15,8 @@ public class KeyChecker implements KeyListener {
             case KeyEvent.VK_LEFT -> panel.getPlayer2().setLeft(true);
             case KeyEvent.VK_RIGHT -> panel.getPlayer2().setRight(true);
             case KeyEvent.VK_UP -> panel.getPlayer2().setJump(true);
-            case KeyEvent.VK_S -> panel.shootBall(panel.getPlayer1());
-            case KeyEvent.VK_DOWN -> panel.shootBall(panel.getPlayer2());
+            case KeyEvent.VK_S -> panel.startShootBall(panel.getPlayer1());
+            case KeyEvent.VK_DOWN -> panel.startShootBall(panel.getPlayer2());
         }
     }
 
@@ -28,6 +28,10 @@ public class KeyChecker implements KeyListener {
             case KeyEvent.VK_LEFT -> panel.getPlayer2().setLeft(false);
             case KeyEvent.VK_RIGHT -> panel.getPlayer2().setRight(false);
             case KeyEvent.VK_UP -> panel.getPlayer2().setJump(false);
+
+            case KeyEvent.VK_S -> panel.shootBall(panel.getPlayer1());
+            case KeyEvent.VK_DOWN -> panel.shootBall(panel.getPlayer2());
+
         }
     }
 

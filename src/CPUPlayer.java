@@ -37,8 +37,8 @@ public class CPUPlayer extends Player {
                 decisionTimer = 0;
 
             }
-            if (x < 500 && x > 400 && shootTimer > shootThreshold) {
-                if (Math.random() < .05) GamePanel.requestCPUShoot(this);
+            if (x < 500 && x > 100 && shootTimer > shootThreshold) {
+                if (Math.random() < .02) GamePanel.requestCPUShoot(this);
             }
 
             if (x < 200) {
@@ -49,7 +49,7 @@ public class CPUPlayer extends Player {
                 setRight(false);
             }
             
-        } else {
+        } else if (opponent.hasBall()){
             reactionTimer++;
             if (reactionTimer > reactionThreshold) {
                 if (opponent.getY() < getY()) {
@@ -82,6 +82,21 @@ public class CPUPlayer extends Player {
             }
 
             if(ball.getY() < opponent.getY()-100) {setJump(true); jumpTimer = 0;}
+        }
+        else {
+            reactionTimer++;
+            if (reactionTimer > reactionThreshold) {
+                if (getX() < ball.x) {
+                    setLeft(false);
+                    setRight(true);
+                } else {
+                    setLeft(true);
+                    setRight(false);
+                }
+                reactionTimer = 0;
+
+            }
+
         }
         super.update();
     }
