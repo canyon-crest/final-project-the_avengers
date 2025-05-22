@@ -132,6 +132,11 @@ public class Player extends Character {
     
     public int getY() { return y; }
     public int getStartY() { return startY; }
+    public String getDirection() {
+        if (left) { return "left"; }
+        if (right) { return "right"; }
+        return "jump";
+    }
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
 }
