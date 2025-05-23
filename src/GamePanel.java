@@ -31,6 +31,8 @@ public class GamePanel extends JPanel implements ActionListener {
 
     private Font scoreFont = new Font("Arial", Font.BOLD, 28);
     private BufferedImage ctImage;
+    private Image hoopLeft;
+    private Image hoopRight;
 
     public GamePanel(MainContainer container, boolean cpuMode, GameMode mode) {
         this.container = container;
@@ -44,9 +46,13 @@ public class GamePanel extends JPanel implements ActionListener {
 
         try {
             ctImage = ImageIO.read(Character.class.getResource("/assets/backgrounds/court.png"));
+            hoopLeft = ImageIO.read(getClass().getResourceAsStream("/res/hoop/hoop.png"));
+            hoopRight = ImageIO.read(getClass().getResourceAsStream("/res/hoop/hoop1.png"));
             }   
         catch (Exception e) {
             ctImage = null;
+            hoopLeft = null;
+            hoopRight = null;
         }
 
         setPreferredSize(new Dimension(1280, 720));
@@ -108,10 +114,12 @@ public class GamePanel extends JPanel implements ActionListener {
         super.paintComponent(g);
 
         g.drawImage(ctImage, 0, 100,1280,720, null);
+        g.drawImage(hoopLeft, leftHoop.x - 110, leftHoop.y - 115, 192, 208, null);
+        g.drawImage(hoopRight, rightHoop.x - 53, rightHoop.y - 115, 192, 208, null);
         g.setColor(Color.WHITE);
 
-        g.fillRect(leftHoop.x, leftHoop.y, leftHoop.width, leftHoop.height);
-        g.fillRect(rightHoop.x, rightHoop.y, rightHoop.width, rightHoop.height);
+        // g.fillRect(leftHoop.x, leftHoop.y, leftHoop.width, leftHoop.height);
+        // g.fillRect(rightHoop.x, rightHoop.y, rightHoop.width, rightHoop.height);
 
         player1.draw(g);
         player2.draw(g);
