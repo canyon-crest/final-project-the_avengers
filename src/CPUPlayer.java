@@ -22,7 +22,7 @@ public class CPUPlayer extends Player {
         shootTimer = 0;
         shootThreshold = (int) Math.random() * 100;
     }
-
+// how the ai decides when to move, jump, shoot
     public void updateAI(Player opponent, Ball ball) {
         if (hasBall()) {
             decisionTimer++;

@@ -6,7 +6,7 @@ public class KeyChecker implements KeyListener {
     public KeyChecker(GamePanel panel) {
         this.panel = panel;
     }
-
+// general formula for a better way to get key inputs we got from GeeksforGeeks website 
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_A -> panel.getPlayer1().setLeft(true);

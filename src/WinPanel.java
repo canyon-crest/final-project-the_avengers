@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class WinPanel extends JPanel {
+	// sets up the win screen
     public WinPanel(MainContainer container, String winner, int time, double accuracy) {
         setLayout(null);
         setBackground(Color.DARK_GRAY);

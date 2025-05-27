@@ -50,7 +50,7 @@ public class Player extends Character {
 
         return image;
     }
-
+// updating the players image based on their direction, jumping or not, has the ball, etc.
     public void updateImage() {
         String direction;
         String level;

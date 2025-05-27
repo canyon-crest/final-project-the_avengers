@@ -52,7 +52,7 @@ public class Ball extends Character {
             framesScaled[i] = framesOriginal[i].getScaledInstance(250, 250, Image.SCALE_SMOOTH);
         }
     }
-
+// variable power shooting
     public void shoot(double powerX, double powerY) {
         this.velocityX = powerX;
         this.velocityY = powerY;
@@ -63,7 +63,7 @@ public class Ball extends Character {
         isRotating = true;
         rInd = 0;
     }
-
+// coding the physics for the ball's travel
     public void update() {
         if (inFlight) {
             x += velocityX;
@@ -127,7 +127,7 @@ public class Ball extends Character {
         // }
         dribble = true;
     }
-
+// code to draw the basketball and update it based on if you're dribbling, it's in the air, etc.
     public void draw(Graphics g) {
     	BufferedImage newImg;
         if (onGround && owner.onGround) {

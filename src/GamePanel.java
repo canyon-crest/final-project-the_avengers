@@ -109,7 +109,7 @@ public class GamePanel extends JPanel implements ActionListener {
         }
         checkScore();
     }
-
+// drawing players, ball, etc.
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
@@ -130,7 +130,7 @@ public class GamePanel extends JPanel implements ActionListener {
         g.drawString("P1: " + player1.getScore(), 50, 50);
         g.drawString(cpuMode ? "CPU: " + player2.getScore() : "P2: " + player2.getScore(), 1280-150, 50);
     }
-
+// measures how much power is in the player's shot
     public void startShootBall(Player shooter) {
         if (ball.isInFlight() || !shooter.hasBall()) return;
 
@@ -138,7 +138,7 @@ public class GamePanel extends JPanel implements ActionListener {
             powerHeld = System.currentTimeMillis();
         }
     }
-
+// performs the player's shot
     public void shootBall(Player shooter) {
         if (ball.isInFlight()) return;
 
@@ -180,7 +180,7 @@ public class GamePanel extends JPanel implements ActionListener {
 
         // }
     }
-
+// determines if a shot is made, and after every shot if there is a winner
     public void checkScore() {
         if (!ball.isInFlight()) return;
 
@@ -214,7 +214,7 @@ public class GamePanel extends JPanel implements ActionListener {
         	
         }
     }
-
+// resets players and ball after a scored point
     public void resetPlay(Player nextPossession,boolean resetPlayers) {
         if (resetPlayers) {
             player1.reset();

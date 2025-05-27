@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class StartPanel extends JPanel {
+	// setting up our start screen
     public StartPanel(MainContainer container) {
         setLayout(null);
         setBackground(Color.LIGHT_GRAY);
