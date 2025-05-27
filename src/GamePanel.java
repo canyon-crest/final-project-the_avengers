@@ -24,6 +24,7 @@ public class GamePanel extends JPanel implements ActionListener {
 
     private double powerX;
     private double powerY;
+    private double powerHeld;
 
     private int shotsTaken = 0;
     private int shotsMade = 0;
@@ -31,28 +32,27 @@ public class GamePanel extends JPanel implements ActionListener {
 
     private Font scoreFont = new Font("Arial", Font.BOLD, 28);
     private BufferedImage ctImage;
-    private Image hoopLeft;
-    private Image hoopRight;
+    private BufferedImage leftHoopImage;
+    private BufferedImage rightHoopImage;
 
     public GamePanel(MainContainer container, boolean cpuMode, GameMode mode) {
         this.container = container;
         this.cpuMode = cpuMode;
         this.gameMode = mode;
         
-        powerX = .4;
-        powerY = 0;
+        powerHeld = 0;
 
         activeInstance = this;
 
         try {
             ctImage = ImageIO.read(Character.class.getResource("/assets/backgrounds/court.png"));
-            hoopLeft = ImageIO.read(getClass().getResourceAsStream("/res/hoop/hoop.png"));
-            hoopRight = ImageIO.read(getClass().getResourceAsStream("/res/hoop/hoop1.png"));
+            leftHoopImage = ImageIO.read(getClass().getResourceAsStream("/assets/hoop.png"));
+            rightHoopImage = ImageIO.read(getClass().getResourceAsStream("/assets/hoop1.png"));
             }   
         catch (Exception e) {
             ctImage = null;
-            hoopLeft = null;
-            hoopRight = null;
+            leftHoopImage = null;
+            rightHoopImage = null;
         }
 
         setPreferredSize(new Dimension(1280, 720));
@@ -114,8 +114,8 @@ public class GamePanel extends JPanel implements ActionListener {
         super.paintComponent(g);
 
         g.drawImage(ctImage, 0, 100,1280,720, null);
-        g.drawImage(hoopLeft, leftHoop.x - 110, leftHoop.y - 115, 192, 208, null);
-        g.drawImage(hoopRight, rightHoop.x - 53, rightHoop.y - 115, 192, 208, null);
+        g.drawImage(leftHoopImage, leftHoop.x - 110, leftHoop.y - 115, 192, 208, null);
+        g.drawImage(rightHoopImage, rightHoop.x - 53, rightHoop.y - 115, 192, 208, null);
         g.setColor(Color.WHITE);
 
         // g.fillRect(leftHoop.x, leftHoop.y, leftHoop.width, leftHoop.height);
@@ -134,7 +134,9 @@ public class GamePanel extends JPanel implements ActionListener {
     public void startShootBall(Player shooter) {
         if (ball.isInFlight() || !shooter.hasBall()) return;
 
-        powerX *= 10;                
+        if (powerHeld == 0) {
+            powerHeld = System.currentTimeMillis();
+        }
     }
 
     public void shootBall(Player shooter) {
@@ -156,6 +158,7 @@ public class GamePanel extends JPanel implements ActionListener {
 
         }
         else {
+            powerX = (System.currentTimeMillis() - powerHeld) * .02;
             powerX = (Math.abs(powerX) > 20) ? 10 : powerX;
             powerX = (shooter == player1) ? powerX : -powerX;
             powerY = -13.5 + ((shooter == player1) ? (rightHoop.getCenterY() - player1.getY())/50 : (leftHoop.getCenterY() - player2.getY())/50);
@@ -165,8 +168,7 @@ public class GamePanel extends JPanel implements ActionListener {
         //double powerY = -13.5 + ((shooter == player1) ? (rightHoop.getCenterY() - player1.getY())/50 : (leftHoop.getCenterY() - player2.getY())/50);
 
         ball.shoot(powerX, powerY);
-        powerX = .4;
-        powerY = 0;
+        powerHeld = 0;
         gameMode.onShoot(ball, shooter);
         }
         // else if (player1.intersects(player2)){
